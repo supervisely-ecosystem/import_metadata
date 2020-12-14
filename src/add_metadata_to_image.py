@@ -3,13 +3,15 @@ from supervisely_lib.io.json import load_json_file
 import supervisely_lib as sly
 from supervisely_lib.api.module_api import ApiField
 
-
 my_app = sly.AppService()
 
 TEAM_ID = int(os.environ['context.teamId'])
 WORKSPACE_ID = int(os.environ['context.workspaceId'])
 PROJECT_ID = int(os.environ['modal.state.slyProjectId'])
-INPUT_DIR = os.environ.get("modal.state.slyFolder")
+INPUT_FOLDER = os.environ.get("modal.state.slyFolder")
+
+MERGE = True
+REPLACE = False
 
 
 def update_meta(api, id, meta):
@@ -25,35 +27,35 @@ def add_meta_to_imgs(api, path_to_files, dataset_id):
     image_names = [image_info.name for image_info in images]
     matches = list(set(images_metas) & set(image_names))
     sly.logger.warn('Find {} files with new meta data, {} matches in dataset'.format(len(images_metas), len(matches)))
+
     for batch in sly.batched(images):
-        image_ids = [image_info.id for image_info in batch]
-        image_names = [image_info.name for image_info in batch]
-        for idx, image_name in enumerate(image_names):
-            if image_name not in images_metas:
-                sly.logger.warn('No image with name {} in directory {}'.format(image_name, path_to_files))
+        for image_info in batch:
+            if image_info.name not in images_metas:
+                sly.logger.warn('No image with name {} in directory {}'.format(image_info.name, path_to_files))
                 continue
-            meta = load_json_file(os.path.join(path_to_files, image_name + '.json'))
-            update_meta(api, image_ids[idx], meta)
+
+            meta = load_json_file(os.path.join(path_to_files, image_info.name + '.json'))
+            if MERGE == True:
+                meta = {**image_info.meta, **meta}
+
+            update_meta(api, image_info.id, meta)
 
 
 @my_app.callback("add_metadata_to_image")
 @sly.timeit
 def add_metadata_to_image(api: sly.Api, task_id, context, state, app_logger):
     storage_dir = my_app.data_dir
-    datasets_in_dir = [subdir for subdir in os.listdir(INPUT_DIR) if os.path.isdir(os.path.join(INPUT_DIR, subdir))]
+    datasets_in_dir = [subdir for subdir in os.listdir(INPUT_FOLDER) if os.path.isdir(os.path.join(INPUT_FOLDER, subdir))]
     datasets = api.dataset.get_list(PROJECT_ID)
     for dataset in datasets:
         progress = sly.Progress('Adding meta to images in dataset {}'.format(dataset.name), len(datasets), app_logger)
         if dataset.name not in datasets_in_dir:
             sly.logger.warn('No dataset with name {} in input directory'.format(dataset.name))
             continue
-        path_to_files = os.path.join(storage_dir, dataset.name)
+        path_to_files = os.path.join(INPUT_FOLDER, dataset.name)
         add_meta_to_imgs(api, path_to_files, dataset.id)
 
     progress.iter_done_report()
-
-    #sly.fs.silent_remove(local_csv_path)
-
     my_app.stop()
 
 
@@ -62,7 +64,7 @@ def main():
         "TEAM_ID": TEAM_ID,
         "WORKSPACE_ID": WORKSPACE_ID,
         "PROJECT_ID": PROJECT_ID,
-        "INPUT_FOLDER": INPUT_DIR
+        "INPUT_FOLDER": INPUT_FOLDER
     })
 
     # Run application service
