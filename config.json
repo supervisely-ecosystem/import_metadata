@@ -1,10 +1,10 @@
 {
-  "name": "Add metadata to image",
+  "name": "Update Metadata for Images in Project",
   "type": "app",
   "categories": [
-    "Videos"
+    "Images"
   ],
-  "description": "Add metadata to image",
+  "description": "Update Metadata for Images in Project",
   "docker_image": "supervisely/base-py-sdk:6",
   "main_script": "src/add_metadata_to_image.py",
   "task_location": "application_sessions",
@@ -12,6 +12,6 @@
   "icon_background": "#FFFFFF",
   "headless": true,
   "context_menu": {
-    "target": ["images_dataset"]
+    "target": ["images_project"]
   }
 }
