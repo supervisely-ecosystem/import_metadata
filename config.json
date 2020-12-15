@@ -12,6 +12,6 @@
   "icon_background": "#FFFFFF",
   "headless": true,
   "context_menu": {
-    "target": ["_____"]   
+    "target": ["images_dataset"]
   }
 }
