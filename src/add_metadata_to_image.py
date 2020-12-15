@@ -50,10 +50,10 @@ def add_metadata_to_image(api: sly.Api, task_id, context, state, app_logger):
     if INPUT_FOLDER is not None:
         cur_files_path = INPUT_FOLDER
         extract_dir = storage_dir
-        archive_path = storage_dir + (cur_files_path.rstrip("/") + ".tar")
+        archive_path = storage_dir + "/" + (sly.fs.get_file_name_with_ext(cur_files_path.rstrip("/") + ".tar"))
     else:
         cur_files_path = INPUT_FILE
-        extract_dir = os.path.join(storage_dir, sly.fs.get_file_name(cur_files_path))
+        extract_dir = storage_dir
         archive_path = os.path.join(storage_dir, sly.fs.get_file_name_with_ext(cur_files_path))
 
     api.file.download(TEAM_ID, cur_files_path, archive_path)
@@ -63,10 +63,9 @@ def add_metadata_to_image(api: sly.Api, task_id, context, state, app_logger):
     else:
         raise Exception("No such file".format(INPUT_FILE))
 
-    input_dir = extract_dir
+    input_dir = os.path.join(storage_dir, sly.fs.get_file_name(cur_files_path))
     if INPUT_FOLDER:
-       cur_files_path = cur_files_path.rstrip("/")
-       input_dir = os.path.join(input_dir, cur_files_path.lstrip("/"))
+       input_dir = input_dir + sly.fs.get_file_name(archive_path)
 
     datasets_in_dir = [subdir for subdir in os.listdir(input_dir) if os.path.isdir(os.path.join(input_dir, subdir))]
     datasets = api.dataset.get_list(PROJECT_ID)
