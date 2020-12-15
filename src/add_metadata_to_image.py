@@ -47,29 +47,31 @@ def add_meta_to_imgs(api, path_to_files, dataset_id):
 @sly.timeit
 def add_metadata_to_image(api: sly.Api, task_id, context, state, app_logger):
     storage_dir = my_app.data_dir
-    if INPUT_FOLDER is not None:
+    if INPUT_FOLDER:
         cur_files_path = INPUT_FOLDER
-        extract_dir = storage_dir
-        archive_path = storage_dir + "/" + (sly.fs.get_file_name_with_ext(cur_files_path.rstrip("/") + ".tar"))
+        archive_path = storage_dir + (cur_files_path.rstrip("/") + ".tar")
     else:
         cur_files_path = INPUT_FILE
-        extract_dir = storage_dir
-        archive_path = os.path.join(storage_dir, sly.fs.get_file_name_with_ext(cur_files_path))
+        archive_path = storage_dir + cur_files_path
 
     api.file.download(TEAM_ID, cur_files_path, archive_path)
     if tarfile.is_tarfile(archive_path):
         with tarfile.open(archive_path) as archive:
+             extract_dir = storage_dir + cur_files_path
+             extract_dir = os.path.abspath(os.path.join(os.path.dirname(extract_dir), '.'))
              archive.extractall(extract_dir)
     else:
         raise Exception("No such file".format(INPUT_FILE))
 
-    input_dir = os.path.join(storage_dir, sly.fs.get_file_name(cur_files_path))
-    if INPUT_FOLDER:
-       input_dir = input_dir + sly.fs.get_file_name(archive_path)
+    input_dir = extract_dir
+    if len(sly.fs.get_subdirs(input_dir)) != 1:
+        raise Exception(f"1 Project Directory required. You have {len(sly.fs.get_subdirs(input_dir))}")
+
+    scan_dir = sly.fs.get_subdirs(input_dir)[0]
+    input_dir = extract_dir + "/" + scan_dir
 
     datasets_in_dir = [subdir for subdir in os.listdir(input_dir) if os.path.isdir(os.path.join(input_dir, subdir))]
     datasets = api.dataset.get_list(PROJECT_ID)
-
     for dataset in datasets:
         progress = sly.Progress('Adding meta to images in dataset {}'.format(dataset.name), len(datasets), app_logger)
         if dataset.name not in datasets_in_dir:
@@ -86,8 +88,7 @@ def main():
     sly.logger.info("Script arguments", extra={
         "TEAM_ID": TEAM_ID,
         "WORKSPACE_ID": WORKSPACE_ID,
-        "PROJECT_ID": PROJECT_ID,
-        "INPUT_FOLDER": INPUT_FOLDER
+        "PROJECT_ID": PROJECT_ID
     })
 
     # Run application service
