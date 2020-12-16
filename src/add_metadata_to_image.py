@@ -10,8 +10,6 @@ my_app = sly.AppService()
 TEAM_ID = int(os.environ['context.teamId'])
 WORKSPACE_ID = int(os.environ['context.workspaceId'])
 PROJECT_ID = int(os.environ['modal.state.slyProjectId'])
-INPUT_FOLDER = os.environ.get("modal.state.slyFolder")
-INPUT_FILE = os.environ.get("modal.state.slyFile")
 INPUT_PATH = os.environ["modal.state.inputPath"]
 RESOLVE = os.environ["modal.state.resolve"]
 
@@ -45,16 +43,16 @@ def add_meta_to_imgs(api, path_to_files, dataset_id, app_logger):
 def add_metadata_to_image(api: sly.Api, task_id, context, state, app_logger):
     storage_dir = my_app.data_dir
     if not INPUT_PATH.endswith('.tar'):
-        cur_files_path = INPUT_FOLDER
+        cur_files_path = INPUT_PATH
         archive_path = storage_dir + (cur_files_path.rstrip("/") + ".tar")
     else:
-        cur_files_path = INPUT_FILE
+        cur_files_path = INPUT_PATH
         archive_path = storage_dir + cur_files_path
 
     if api.file.exists(TEAM_ID, cur_files_path):
        api.file.download(TEAM_ID, cur_files_path, archive_path)
     else:
-        raise OSError("No such file".format(INPUT_FILE))
+        raise OSError("No such file".format(INPUT_PATH))
 
     if tarfile.is_tarfile(archive_path):
         with tarfile.open(archive_path) as archive:
