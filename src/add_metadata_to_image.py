@@ -16,14 +16,7 @@ INPUT_PATH = os.environ["modal.state.inputPath"]
 RESOLVE = os.environ["modal.state.resolve"]
 
 
-def update_meta(api, id, meta):
-    if type(meta) is not dict:
-        raise TypeError('Meta must be dict, not {}'.format(type(meta)))
-    response = api.post('images.editInfo', {ApiField.ID: id, ApiField.META: meta})
-    return response.json()
-
-
-def add_meta_to_imgs(api, path_to_files, dataset_id):
+def add_meta_to_imgs(api, path_to_files, dataset_id, app_logger):
     images_metas = [json_name[:-5] for json_name in os.listdir(path_to_files)]
     images = api.image.get_list(dataset_id)
     image_names = [image_info.name for image_info in images]
@@ -31,16 +24,20 @@ def add_meta_to_imgs(api, path_to_files, dataset_id):
     sly.logger.warn('Find {} files with new meta data, {} matches in dataset'.format(len(images_metas), len(matches)))
 
     for batch in sly.batched(images):
+        progress = sly.Progress('Uploading metadata to image', len(images),
+                                app_logger)
         for image_info in batch:
             if image_info.name not in images_metas:
                 sly.logger.warn('No image with name {} in directory {}'.format(image_info.name, path_to_files))
                 continue
 
+
             meta = load_json_file(os.path.join(path_to_files, image_info.name + '.json'))
             if RESOLVE == "merge":
                 meta = {**image_info.meta, **meta}
 
-            update_meta(api, image_info.id, meta)
+            api.image.update_meta(image_info.id, meta)
+            progress.iter_done_report()
 
 
 @my_app.callback("add_metadata_to_image")
@@ -54,14 +51,16 @@ def add_metadata_to_image(api: sly.Api, task_id, context, state, app_logger):
         cur_files_path = INPUT_FILE
         archive_path = storage_dir + cur_files_path
 
-    api.file.download(TEAM_ID, cur_files_path, archive_path)
+    if api.file.exists(TEAM_ID, cur_files_path):
+       api.file.download(TEAM_ID, cur_files_path, archive_path)
+    else:
+        raise OSError("No such file".format(INPUT_FILE))
+
     if tarfile.is_tarfile(archive_path):
         with tarfile.open(archive_path) as archive:
              extract_dir = storage_dir + cur_files_path
              extract_dir = os.path.abspath(os.path.join(os.path.dirname(extract_dir), '.'))
              archive.extractall(extract_dir)
-    else:
-        raise Exception("No such file".format(INPUT_FILE))
 
     input_dir = extract_dir
     if len(sly.fs.get_subdirs(input_dir)) != 1:
@@ -73,14 +72,12 @@ def add_metadata_to_image(api: sly.Api, task_id, context, state, app_logger):
     datasets_in_dir = [subdir for subdir in os.listdir(input_dir) if os.path.isdir(os.path.join(input_dir, subdir))]
     datasets = api.dataset.get_list(PROJECT_ID)
     for dataset in datasets:
-        progress = sly.Progress('Adding meta to images in dataset {}'.format(dataset.name), len(datasets), app_logger)
         if dataset.name not in datasets_in_dir:
             sly.logger.warn('No dataset with name {} in input directory'.format(dataset.name))
             continue
         path_to_files = os.path.join(input_dir, dataset.name)
-        add_meta_to_imgs(api, path_to_files, dataset.id)
+        add_meta_to_imgs(api, path_to_files, dataset.id, app_logger)
 
-    progress.iter_done_report()
     my_app.stop()
 
 
