@@ -49,8 +49,11 @@ def add_metadata_to_image(api: sly.Api, task_id, context, state, app_logger):
         cur_files_path = INPUT_PATH
         archive_path = storage_dir + cur_files_path
 
+    if api.file.exists(TEAM_ID, cur_files_path):
+       api.file.download(TEAM_ID, cur_files_path, archive_path)
+    else:
+        raise OSError("No such file".format(INPUT_PATH))
 
-    api.file.download(TEAM_ID, cur_files_path, archive_path)
     if tarfile.is_tarfile(archive_path):
         with tarfile.open(archive_path) as archive:
              extract_dir = storage_dir + cur_files_path
