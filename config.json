@@ -7,6 +7,12 @@
   "description": "Update Metadata for Images in Project",
   "docker_image": "supervisely/base-py-sdk:6",
   "main_script": "src/add_metadata_to_image.py",
+  "modal_template": "src/modal.html",
+  "modal_template_state": {
+    "resolve": "merge",
+    "resolveOptions": ["merge", "replace"],
+    "inputPath": ""
+  },
   "task_location": "application_sessions",
   "icon": "https://i.imgur.com/f3S6Zpx.png",
   "icon_background": "#FFFFFF",
