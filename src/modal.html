@@ -1,0 +1,23 @@
+<div>
+    <sly-field title="Input path"
+               description="Path to directory or tar archive in Team Files">
+        <sly-icon slot="icon" :options="{ color: '#2cd26e', bgColor: '#d8f8e7', rounded: false }">
+            <i class="zmdi zmdi-folder"></i>
+        </sly-icon>
+        <el-input placeholder="Please input path" v-model="state.videoId"></el-input>
+    </sly-field>
+    <sly-field title="Resolve conflicts"
+               description="Path to directory or tar archive in Team Files">
+        <sly-icon slot="icon" :options="{ color: '#2cd26e', bgColor: '#d8f8e7', rounded: false }">
+            <i class="zmdi zmdi-alert-triangle"></i>
+        </sly-icon>
+        <el-select v-model="state.resolve" placeholder="Select">
+            <el-option
+                    v-for="item in state.resolveOptions"
+                    :key="item"
+                    :label="item"
+                    :value="item">
+            </el-option>
+        </el-select>
+    </sly-field>
+</div>
