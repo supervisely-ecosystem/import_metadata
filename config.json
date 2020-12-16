@@ -13,7 +13,7 @@
     "resolveOptions": ["merge", "replace"],
     "inputPath": ""
   },
-  "task_location": "application_sessions",
+  "task_location": "workspace_tasks",
   "icon": "https://i.imgur.com/f3S6Zpx.png",
   "icon_background": "#FFFFFF",
   "headless": true,
