@@ -12,8 +12,8 @@ WORKSPACE_ID = int(os.environ['context.workspaceId'])
 PROJECT_ID = int(os.environ['modal.state.slyProjectId'])
 INPUT_FOLDER = os.environ.get("modal.state.slyFolder")
 INPUT_FILE = os.environ.get("modal.state.slyFile")
-
-MERGE = True
+INPUT_PATH = os.environ["modal.state.inputPath"]
+RESOLVE = os.environ["modal.state.resolve"]
 
 
 def update_meta(api, id, meta):
@@ -37,7 +37,7 @@ def add_meta_to_imgs(api, path_to_files, dataset_id):
                 continue
 
             meta = load_json_file(os.path.join(path_to_files, image_info.name + '.json'))
-            if MERGE == True:
+            if RESOLVE == "merge":
                 meta = {**image_info.meta, **meta}
 
             update_meta(api, image_info.id, meta)
@@ -47,7 +47,7 @@ def add_meta_to_imgs(api, path_to_files, dataset_id):
 @sly.timeit
 def add_metadata_to_image(api: sly.Api, task_id, context, state, app_logger):
     storage_dir = my_app.data_dir
-    if INPUT_FOLDER:
+    if not INPUT_PATH.endswith('.tar'):
         cur_files_path = INPUT_FOLDER
         archive_path = storage_dir + (cur_files_path.rstrip("/") + ".tar")
     else:
