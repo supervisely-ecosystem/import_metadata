@@ -35,7 +35,7 @@ Look at the examples for Directory and Archive below:
 ## How To Run 
 **Step 1**: Add app to your team from [Ecosystem](https://ecosystem.supervise.ly/apps/convert-supervisely-to-yolov5-format) if it is not there.
 
-**Step 2**: Open context menu of project -> `Run App` -> `Upload Images Metadata` 
+**Step 2**: Open context menu of your project -> `Run App` -> `Upload Images Metadata` 
 
 <img src="https://i.imgur.com/dY1ARDk.png"/>
 
