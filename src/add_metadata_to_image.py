@@ -33,7 +33,7 @@ def add_meta_to_images(api, path_to_files, dataset_id, app_logger):
             if RESOLVE == "merge":
                 for key in list(meta):
                     if key in image_info.meta:
-                        meta[key + " original"] = image_info.meta[key]
+                        meta[key + "-original"] = image_info.meta[key]
 
                 meta = {**image_info.meta, **meta}
 
