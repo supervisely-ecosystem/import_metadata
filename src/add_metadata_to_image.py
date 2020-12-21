@@ -31,11 +31,12 @@ def add_meta_to_images(api, path_to_files, dataset_id, app_logger):
 
             meta = load_json_file(os.path.join(path_to_files, image_info.name + '.json'))
             if RESOLVE == "merge":
-                for key in list(meta):
+                meta_copy = meta.copy()
+                for key in meta.keys():
                     if key in image_info.meta:
-                        meta[key + "-original"] = image_info.meta[key]
+                        meta_copy[key + "-original"] = image_info.meta[key]
 
-                meta = {**image_info.meta, **meta}
+                meta = {**image_info.meta, **meta_copy}
 
             api.image.update_meta(image_info.id, meta)
         progress.iters_done_report(len(batch))
