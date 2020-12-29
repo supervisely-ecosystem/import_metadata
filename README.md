@@ -21,7 +21,9 @@
 
 ## Overview
 
-All images in supervisely have default metadata.
+All images in supervisely have default metadata. It contains base information about image in dataset such as: time when image was created or modified by user, pixel area, image size, resolution. But there's also an ability to store your own custom metadata for image.
+In this example we store some additional information about image, which helps to match images from one database with another, such as imdb.
+
 <img src="https://i.imgur.com/jc4i7c9.png"/>
 
 
