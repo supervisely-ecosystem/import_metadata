@@ -44,13 +44,15 @@ Look at the examples for Directory and Archive below:
 
 **Step 1** Drag and drop you folder or `tar` archive with data to Team Files.
 
-**Step 2** Right click on your data and click on `copy path`. **It's important that you must copy path of your project folder, not dataset folder**.
+**Step 2** Right click on your data to open context menu and choose `copy path` option. 
+**Important notice: copy path of your project folder instead of dataset folder**.
 
 <img src="https://i.imgur.com/4x3hqne.png"/>
 
 **Step 3** Run application from project context menu and paste path to your data. 
 
-<img src="https://i.imgur.com/uU80RCp.png"/>
+<img src="https://i.imgur.com/EvTZzsa.png"/>
+<img src="https://i.imgur.com/gZ3Ldqh.png"/>
 
 **Step 4** After running the application, you will be redirected to the tasks page. Once application processing has finished, you can go to your project to see the results.
 <img src="https://i.imgur.com/e7yZ3Ez.png"/>
