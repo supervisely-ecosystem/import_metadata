@@ -21,7 +21,8 @@
 
 ## Overview
 
-Transform `json` Data  to Images metadata.
+All images in supervisely have default metadata.
+<img src="https://i.imgur.com/jc4i7c9.png"/>
 
 
 ## Preparation
