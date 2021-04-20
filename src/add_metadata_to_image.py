@@ -19,7 +19,7 @@ def add_meta_to_images(api, path_to_files, dataset_id, app_logger):
     image_names = [image_info.name for image_info in images]
     matches = list(set(path_to_images) & set(image_names))
     if not len(path_to_images) != len(matches):
-        app_logger.warn('Find {} files with new meta data, {} matches in dataset'.format(len(path_to_images), len(matches)))
+        app_logger.info('Find {} metadata files, {} matches in dataset'.format(len(path_to_images), len(matches)))
 
     progress = sly.Progress('Uploading metadata to image', len(images),
                             app_logger)
@@ -42,9 +42,9 @@ def add_meta_to_images(api, path_to_files, dataset_id, app_logger):
         progress.iters_done_report(len(batch))
 
 
-@my_app.callback("metadata_processing")
+@my_app.callback("import_images_metadata")
 @sly.timeit
-def metadata_processing(api: sly.Api, task_id, context, state, app_logger):
+def import_images_metadata(api: sly.Api, task_id, context, state, app_logger):
     storage_dir = my_app.data_dir
     if not INPUT_PATH.endswith('.tar'):
         archive_path = os.path.join(storage_dir, INPUT_PATH.strip('/') + ".tar")
@@ -86,7 +86,7 @@ def main():
     })
 
     # Run application service
-    my_app.run(initial_events=[{"command": "metadata_processing"}])
+    my_app.run(initial_events=[{"command": "import_images_metadata"}])
 
 
 if __name__ == "__main__":
