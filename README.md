@@ -1,7 +1,7 @@
 <div align="center" markdown>
 <img src="https://i.imgur.com/kWm6Rkk.png"/>
 
-# Upload Images Metadata
+# Import Project Images Metadata
 
 
 <p align="center">
