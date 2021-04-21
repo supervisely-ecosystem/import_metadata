@@ -13,15 +13,15 @@ INPUT_PATH = os.environ["modal.state.inputPath"]
 RESOLVE = os.environ["modal.state.resolve"]
 
 
-def add_meta_to_images(api, path_to_files, dataset_id, app_logger):
+def add_metadata_to_images(api, path_to_files, dataset_id, app_logger):
     path_to_images = [sly.fs.get_file_name(json_name) for json_name in os.listdir(path_to_files)]
     images = api.image.get_list(dataset_id)
     image_names = [image_info.name for image_info in images]
     matches = list(set(path_to_images) & set(image_names))
-    if not len(path_to_images) != len(matches):
-        app_logger.info('Find {} metadata files, {} matches in dataset'.format(len(path_to_images), len(matches)))
+    if len(path_to_images) != len(matches):
+        app_logger.warn('Only {} metadata files was found, {} matches image names in dataset'.format(len(path_to_images), len(matches)))
 
-    progress = sly.Progress('Uploading metadata to image', len(images),
+    progress = sly.Progress('Uploading metadata to images', len(images),
                             app_logger)
     for batch in sly.batched(images):
         for image_info in batch:
@@ -42,9 +42,9 @@ def add_meta_to_images(api, path_to_files, dataset_id, app_logger):
         progress.iters_done_report(len(batch))
 
 
-@my_app.callback("import_images_metadata")
+@my_app.callback("import_metadata")
 @sly.timeit
-def import_images_metadata(api: sly.Api, task_id, context, state, app_logger):
+def import_metadata(api: sly.Api, task_id, context, state, app_logger):
     storage_dir = my_app.data_dir
     if not INPUT_PATH.endswith('.tar'):
         archive_path = os.path.join(storage_dir, INPUT_PATH.strip('/') + ".tar")
@@ -73,7 +73,7 @@ def import_images_metadata(api: sly.Api, task_id, context, state, app_logger):
             sly.logger.warn('No dataset with name {} in input directory'.format(dataset.name))
             continue
         path_to_files = os.path.join(input_dir, dataset.name)
-        add_meta_to_images(api, path_to_files, dataset.id, app_logger)
+        add_metadata_to_images(api, path_to_files, dataset.id, app_logger)
 
     my_app.stop()
 
@@ -86,7 +86,7 @@ def main():
     })
 
     # Run application service
-    my_app.run(initial_events=[{"command": "import_images_metadata"}])
+    my_app.run(initial_events=[{"command": "import_metadata"}])
 
 
 if __name__ == "__main__":

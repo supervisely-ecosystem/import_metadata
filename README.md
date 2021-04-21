@@ -1,7 +1,7 @@
 <div align="center" markdown>
 <img src="https://i.imgur.com/kWm6Rkk.png"/>
 
-# Import Project Images Metadata
+# Import Metadata
 
 
 <p align="center">
@@ -21,15 +21,15 @@
 
 ## Overview
 
-All images in supervisely have default metadata. It contains base information about image in dataset such as: time when image was created or modified by user, pixel area, image size, resolution. But there's also an ability to store your own custom metadata for image.
-In this example we store some additional information about image, which helps to match images from one database with another, such as imdb.
+All images in Supervisely have metadata by default. It contains base information about image in dataset such as: time when image was created or modified by user, pixel area, image size, resolution. But there's also an ability to store your own custom metadata for an image.
+In this example we store some additional information about image, which helps to match images from one database with another, such as IMDB.
 
 <img src="https://i.imgur.com/jc4i7c9.png"/>
 
 
 ## Preparation
 
-Your `json` data folder have to contain only directories with dataset names. You can also upload a `tar` archive with a project folder inside.
+Your `json` data folder have to contain only directories with dataset names. You can also upload a `.tar` archive with a project folder inside.
 Look at the examples for Directory and Archive below:
 
 <img src="https://i.imgur.com/YDq0013.png"/>
@@ -38,7 +38,7 @@ Look at the examples for Directory and Archive below:
 ## How To Run 
 **Step 1**: Add app to your team from [Ecosystem](https://ecosystem.supervise.ly/apps/upload_metadata) if it is not there.
 
-**Step 2**: Open context menu of your project -> `Run App` -> `Upload Images Metadata` 
+**Step 2**: Open context menu of your project -> `Run App` -> `Import Metadata`
 
 <img src="https://i.imgur.com/dY1ARDk.png"/>
 
