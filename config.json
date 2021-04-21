@@ -2,7 +2,6 @@
   "name": "Import Metadata",
   "type": "app",
   "categories": [
-    "Images",
     "Import"
   ],
   "description": "Import Metadata for Images in Project",
