@@ -40,7 +40,7 @@ Look at the examples for Directory and Archive below:
 
 **Step 2**: Open context menu of your project -> `Run App` -> `Import Metadata`
 
-<img src="https://i.imgur.com/dY1ARDk.png"/>
+<img src="https://i.imgur.com/oPSVHxM.png"/>
 
 
 ## How to use
@@ -54,8 +54,8 @@ Look at the examples for Directory and Archive below:
 
 **Step 3** Run application from project context menu and paste path to your data. 
 
-<img src="https://i.imgur.com/EvTZzsa.png"/>
-<img src="https://i.imgur.com/gZ3Ldqh.png"/>
+<img src="https://i.imgur.com/2hrpTnO.png"/>
+<img src="https://i.imgur.com/ZJyTQ4O.png"/>
 
 **Step 4** After running the application, you will be redirected to the tasks page. Once application processing has finished, you can go to your project to see the results.
 <img src="https://i.imgur.com/e7yZ3Ez.png"/>
