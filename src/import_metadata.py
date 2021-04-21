@@ -26,7 +26,7 @@ def add_metadata_to_images(api, path_to_files, dataset_id, app_logger):
     for batch in sly.batched(images):
         for image_info in batch:
             if image_info.name not in path_to_images:
-                app_logger.warn('No such file with matching image name {}.json in directory {}'.format(image_info.name, path_to_files))
+                app_logger.warn('Metadata file for image {} was not found in directory {}'.format(image_info.name, path_to_files))
                 continue
 
             meta = load_json_file(os.path.join(path_to_files, image_info.name + '.json'))
