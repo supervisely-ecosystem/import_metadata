@@ -1,5 +1,5 @@
 <div align="center" markdown>
-<img src="https://i.imgur.com/kWm6Rkk.png"/>
+<img src="https://i.imgur.com/hok1enC.png"/>
 
 # Import Metadata
 
