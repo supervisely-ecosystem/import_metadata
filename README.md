@@ -29,10 +29,23 @@ In this example we store some additional information about image, which helps to
 
 ## Preparation
 
-Your `json` data folder have to contain only directories with dataset names. You can also upload a `.tar` archive with a project folder inside.
+Your data folder with `json` files have to contain only directories matching project dataset names. You can also upload a `.tar` archive with a data folder inside.
 Look at the examples for Directory and Archive below:
 
-<img src="https://i.imgur.com/YDq0013.png"/>
+```text
+1) Directory                          2) Archive
+.                                     .
+├── DataFolder                        ├── Metadata.tar
+    |── dataset01                         |── DataFolder
+    |    ├── IMG_521.json                     |── dataset01
+    |    ├── IMG_522.json                     |    ├── IMG_521.json  
+    |    └── . . .                            |    ├── IMG_522.json    
+    └── dataset02                             |    └── . . .       
+        ├── IMG_4561.json                     └── dataset02     
+        ├── IMG_4562.json                         ├── IMG_4561.json  
+        └──  . . .                                ├── IMG_4562.json  
+                                                  └──  . . .      
+```
 
 
 ## How To Run 
