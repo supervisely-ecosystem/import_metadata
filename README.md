@@ -29,7 +29,7 @@ In this example we store some additional information about image, which helps to
 
 ## Preparation
 
-Your data folder with `json` files have to contain only directories matching project dataset names. You can also upload a `.tar` archive with a data folder inside.
+Your data folder with `json` files have to contain only directories with names that are exactly matching project dataset names. You can also upload a `.tar` archive with a data folder inside.
 Look at the examples for Directory and Archive below:
 
 ```text
