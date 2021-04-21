@@ -19,14 +19,14 @@ def add_metadata_to_images(api, path_to_files, dataset_id, app_logger):
     image_names = [image_info.name for image_info in images]
     matches = list(set(path_to_images) & set(image_names))
     if len(path_to_images) != len(matches):
-        app_logger.warn('Only {} metadata files was found, {} matches image names in dataset'.format(len(path_to_images), len(matches)))
+        app_logger.warn('{} metadata files were given, {} matches image names in dataset'.format(len(path_to_images), len(matches)))
 
     progress = sly.Progress('Uploading metadata to images', len(images),
                             app_logger)
     for batch in sly.batched(images):
         for image_info in batch:
             if image_info.name not in path_to_images:
-                app_logger.warn('No image with name {} in directory {}'.format(image_info.name, path_to_files))
+                app_logger.warn('No such file with matching image name {}.json in directory {}'.format(image_info.name, path_to_files))
                 continue
 
             meta = load_json_file(os.path.join(path_to_files, image_info.name + '.json'))
