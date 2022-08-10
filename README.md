@@ -48,7 +48,7 @@ Look at the examples for Directory and Archive below:
 
 
 ## How To Run 
-**Step 1**: Add app to your team from [Ecosystem](https://ecosystem.supervise.ly/apps/upload_metadata) if it is not there.
+**Step 1**: Add app to your team from [Ecosystem](https://ecosystem.supervise.ly/apps/import-metadata) if it is not there.
 
 **Step 2**: Open context menu of your project -> `Run App` -> `Import Metadata`
 
