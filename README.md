@@ -1,5 +1,5 @@
 <div align="center" markdown>
-<img src="https://i.imgur.com/hok1enC.png"/>
+<img src="media/poster.png"/>
 
 # Import Metadata
 
@@ -23,7 +23,7 @@
 All images in Supervisely have metadata by default. It contains base information about image in dataset such as: time when image was created or modified by user, pixel area, image size, resolution. But there's also an ability to store your own custom metadata for an image.
 In this example we store some additional information about image, which helps to match images from one database with another, such as IMDB.
 
-<img src="https://i.imgur.com/jc4i7c9.png"/>
+<img src="media/ov.png"/>
 
 
 ## Preparation
@@ -52,7 +52,7 @@ Look at the examples for Directory and Archive below:
 
 **Step 2**: Open context menu of your project -> `Run App` -> `Import Metadata`
 
-<img src="https://i.imgur.com/oPSVHxM.png"/>
+<img src="media/htr2.png"/>
 
 
 ## How to use
@@ -62,12 +62,12 @@ Look at the examples for Directory and Archive below:
 **Step 2** Right click on your data to open context menu and choose `copy path` option. 
 **Important notice: copy path of your project folder instead of dataset folder**.
 
-<img src="https://i.imgur.com/4x3hqne.png"/>
+<img src="media/htu2.png"/>
 
 **Step 3** Run application from project context menu and paste path to your data. 
 
-<img src="https://i.imgur.com/2hrpTnO.png"/>
-<img src="https://i.imgur.com/ZJyTQ4O.png"/>
+<img src="media/htu3.png"/>
+<img src="media/htu3a.png"/>
 
 **Step 4** After running the application, you will be redirected to the tasks page. Once application processing has finished, you can go to your project to see the results.
-<img src="https://i.imgur.com/e7yZ3Ez.png"/>
+<img src="media/htu4.png"/>
