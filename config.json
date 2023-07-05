@@ -19,7 +19,7 @@
     "inputPath": ""
   },
   "task_location": "workspace_tasks",
-  "icon": "https://i.imgur.com/JMyT9V1.png",
+  "icon": "media/icon.png",
   "icon_background": "#FFFFFF",
   "headless": true,
   "context_menu": {
@@ -27,5 +27,5 @@
       "images_project"
     ]
   },
-  "poster": "https://i.imgur.com/hok1enC.png"
+  "poster": "media/poster.png"
 }
