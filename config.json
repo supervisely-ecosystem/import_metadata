@@ -7,7 +7,7 @@
         "metadata"
     ],
     "description": "Import Metadata for Images in Project",
-    "docker_image": "supervisely/base-py-sdk:6.72.78",
+    "docker_image": "supervisely/import-export:0.0.2",
     "main_script": "src/import_metadata.py",
     "modal_template": "src/modal.html",
     "modal_template_state": {
