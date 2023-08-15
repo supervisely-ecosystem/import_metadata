@@ -58,7 +58,7 @@ def import_metadata(api: sly.Api, task_id, context, state, app_logger):
              extract_dir = os.path.abspath(os.path.join(os.path.dirname(extract_dir), '.'))
              archive.extractall(extract_dir)
     else:
-        raise ValueError("No such file {}".format(INPUT_PATH))
+        raise Exception(f"Archive {INPUT_PATH} is not a .tar file")
 
     input_dir = extract_dir
     if len(sly.fs.get_subdirs(input_dir)) != 1:
