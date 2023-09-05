@@ -5,6 +5,11 @@
             <i class="zmdi zmdi-folder"></i>
         </sly-icon>
         <el-input placeholder="Please input path" v-model="state.inputPath"></el-input>
+        <div v-if="state.inputPath == ''" class="mt5 mb5">
+        <span style="color: #ed4242"
+          >Please input the path to the metadata directory or archive in Team Files</span
+        >
+      </div>
     </sly-field>
     <sly-field title="Resolve conflicts"
                description="Conflict resolution mode">
