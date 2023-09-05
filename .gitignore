@@ -1,2 +1,4 @@
 /secret_debug.env
 .idea
+supervisely
+.venv
