@@ -55,10 +55,9 @@ def import_metadata(api: sly.Api, task_id, context, state, app_logger):
 
     api.file.download(TEAM_ID, INPUT_PATH, archive_path)
     if tarfile.is_tarfile(archive_path):
-        with tarfile.open(archive_path) as archive:
-             extract_dir = os.path.join(storage_dir, INPUT_PATH.strip('/'))
-             extract_dir = os.path.abspath(os.path.join(os.path.dirname(extract_dir), '.'))
-             archive.extractall(extract_dir)
+        extract_dir = os.path.join(storage_dir, INPUT_PATH.strip('/'))
+        extract_dir = os.path.abspath(os.path.join(os.path.dirname(extract_dir), '.'))
+        sly.fs.unpack_archive(archive_path, extract_dir)
     else:
         raise Exception(f"Archive {INPUT_PATH} is not a .tar file")
 
