@@ -1,23 +1,72 @@
 <div>
-    <sly-field title="Input path"
+    <!-- <sly-field title="Input path"
                description="Path to directory or tar archive in Team Files">
         <sly-icon slot="icon" :options="{ color: '#2cd26e', bgColor: '#d8f8e7', rounded: false }">
             <i class="zmdi zmdi-folder"></i>
         </sly-icon>
         <el-input placeholder="Please input path" v-model="state.inputPath"></el-input>
-    </sly-field>
-    <sly-field title="Resolve conflicts"
-               description="Conflict resolution mode">
-        <sly-icon slot="icon" :options="{ color: '#ea9d22', bgColor: '#fcefd9', rounded: false }">
-            <i class="zmdi zmdi-alert-triangle"></i>
-        </sly-icon>
-        <el-select v-model="state.resolve" placeholder="Select">
-            <el-option
-                    v-for="item in state.resolveOptions"
-                    :key="item"
-                    :label="item"
-                    :value="item">
-            </el-option>
-        </el-select>
-    </sly-field>
+        <div v-if="state.inputPath == ''" class="mt5 mb5">
+        <span style="color: #ed4242"
+          >Please input the path to the metadata directory or archive in Team Files</span
+        >
+      </div>
+    </sly-field> -->
+    <el-tabs v-model="state.isDragMode">
+        <el-tab-pane name="Drag & drop" label="Drag & drop">
+            <sly-file-storage-upload
+            :options="{ folder: '/import/import-metadata/' + context.formId + '/' }"
+            @files-uploaded="(files) => {
+                if (files.uploadedFiles && files.uploadedFiles.length === 1 && ['zip', 'tar'].includes(files.uploadedFiles[0].path.split('.').pop())) { 
+                    state.files = files.uploadedFiles[0].path;
+                }
+                else {
+                    let baseFolderPrefix = '/import/import-metadata/' + context.formId + '/';
+                    let folderPrefix = '';
+                    files.uploadedFiles.forEach((f, idx) => {
+                        const filePathParts = f.path.replace(baseFolderPrefix, '').split('/');
+                        if (filePathParts?.length > 1) {
+                        if (idx === 0) { folderPrefix = filePathParts[0]; }
+                        else if (filePathParts[0] !== folderPrefix) { folderPrefix = ''; }
+                        } else { folderPrefix = ''; }
+                    });
+                    if (folderPrefix) { baseFolderPrefix += `${folderPrefix}/`; }
+                    state.files = baseFolderPrefix;
+                }
+            }"
+            >
+            </sly-file-storage-upload>
+        </el-tab-pane>
+        <el-tab-pane name="Team files" label="Team files">
+            <sly-select-team-files
+            :team-id="context.teamId"
+            :options="{
+                multipleSelection: false,
+                additionalFields: ['size'],
+                maxHeight: '250px',
+                hideHeader: true
+            }"
+            @items-selected="(files) => {
+                if (files && files.length) { 
+                    state.files = files[0].path;
+                }
+            }">
+            </sly-select-team-files>
+        </el-tab-pane>
+    </el-tabs>
+    <div class="mt15">
+        <sly-field title="Resolve conflicts"
+                description="Conflict resolution mode">
+            <sly-icon slot="icon" :options="{ color: '#ea9d22', bgColor: '#fcefd9', rounded: false }">
+                <i class="zmdi zmdi-alert-triangle"></i>
+            </sly-icon>
+            <el-select v-model="state.resolve" placeholder="Select">
+                <el-option
+                        v-for="item in state.resolveOptions"
+                        :key="item"
+                        :label="item"
+                        :value="item">
+                </el-option>
+            </el-select>
+        </sly-field>
+    </div>
 </div>
