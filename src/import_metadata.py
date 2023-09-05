@@ -1,15 +1,15 @@
 import os
 import tarfile
 
-import supervisely_lib as sly
-from supervisely_lib.io.json import load_json_file
+import supervisely as sly
 
 my_app = sly.AppService()
 
 TEAM_ID = int(os.environ['context.teamId'])
 WORKSPACE_ID = int(os.environ['context.workspaceId'])
 PROJECT_ID = int(os.environ['modal.state.slyProjectId'])
-INPUT_PATH = os.environ["modal.state.inputPath"]
+# INPUT_PATH = os.environ.get("modal.state.inputPath")
+INPUT_PATH = os.environ.get("modal.state.files")
 RESOLVE = os.environ["modal.state.resolve"]
 
 
@@ -29,7 +29,7 @@ def add_metadata_to_images(api, path_to_files, dataset_id, app_logger):
                 app_logger.warn('Metadata file for image {} was not found in directory {}'.format(image_info.name, path_to_files))
                 continue
 
-            meta = load_json_file(os.path.join(path_to_files, image_info.name + '.json'))
+            meta = sly.json.load_json_file(os.path.join(path_to_files, image_info.name + '.json'))
             if RESOLVE == "merge":
                 meta_copy = meta.copy()
                 for key in meta.keys():
@@ -46,6 +46,8 @@ def add_metadata_to_images(api, path_to_files, dataset_id, app_logger):
 @sly.timeit
 def import_metadata(api: sly.Api, task_id, context, state, app_logger):
     storage_dir = my_app.data_dir
+    if INPUT_PATH is None or INPUT_PATH == "":
+        raise Exception("Input path is not specified")
     if not INPUT_PATH.endswith('.tar'):
         archive_path = os.path.join(storage_dir, INPUT_PATH.strip('/') + ".tar")
     else:
