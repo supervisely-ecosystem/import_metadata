@@ -56,8 +56,7 @@ def import_metadata(api: sly.Api, task_id, context, state, app_logger):
     try:
         api.file.download(TEAM_ID, INPUT_PATH, archive_path)
     except Exception as e:
-        msg = "Can not download file from Team files"
-        raise Exception(msg) from e
+        raise Exception("Can not download input data from Team files") from e
     if tarfile.is_tarfile(archive_path):
         with tarfile.open(archive_path) as archive:
              extract_dir = os.path.join(storage_dir, INPUT_PATH.strip('/'))
