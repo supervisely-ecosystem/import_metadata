@@ -11,10 +11,10 @@
   <a href="#How-To-Use">How To Use</a>
 </p>
 
-[![](https://img.shields.io/badge/slack-chat-green.svg?logo=slack)](https://supervise.ly/slack)
+[![](https://img.shields.io/badge/slack-chat-green.svg?logo=slack)](https://supervisely.com/slack)
 ![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/supervisely-ecosystem/import-metadata)
-[![views](https://app.supervise.ly/img/badges/views/supervisely-ecosystem/import-metadata.png)](https://supervise.ly)
-[![runs](https://app.supervise.ly/img/badges/runs/supervisely-ecosystem/import-metadata.png)](https://supervise.ly)
+[![views](https://app.supervisely.com/img/badges/views/supervisely-ecosystem/import-metadata.png)](https://supervisely.com)
+[![runs](https://app.supervisely.com/img/badges/runs/supervisely-ecosystem/import-metadata.png)](https://supervisely.com)
 
 </div>
 
@@ -48,7 +48,7 @@ Look at the examples for Directory and Archive below:
 
 
 ## How To Run 
-**Step 1**: Add app to your team from [Ecosystem](https://ecosystem.supervise.ly/apps/import-metadata) if it is not there.
+**Step 1**: Add app to your team from [Ecosystem](https://ecosystem.supervisely.com/apps/import-metadata) if it is not there.
 
 **Step 2**: Open context menu of your project -> `Run App` -> `Import Metadata`
 
